@@ -31,11 +31,13 @@
     @endif
 
     @if(Session::has('success'))
-      <center> {{ Session::get('success') }} </center><br>
+        <br/>
+        <center class="alert-success"> {{ Session::get('success') }} </center><br>
+        <br/>
     @endif
 
     <div id='add-item-form'>
-    {!! Form::model($device, array('action' => array('UserController@doAddDevice', $device->id), 'method' => 'POST', 'name' => 'add-device')) !!}
+    {!! Form::model($device, array('action' => array('UserController@doEditDevice', $device->id), 'method' => 'POST', 'name' => 'add-device')) !!}
 
             <table border=0>
                 <tr>

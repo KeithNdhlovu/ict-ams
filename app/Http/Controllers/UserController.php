@@ -43,6 +43,34 @@ class UserController extends Controller
     }
 
     /**
+     * Show the end users page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showUsers(Request $request)
+    {
+
+        $endUsers = EndUser::all();
+        return view('users', [
+            'users' => $endUsers,
+        ]);
+    }
+
+    /**
+     * Show the devices page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showAddUser(Request $request)
+    {
+
+        $companies = Company::all();
+        return view('addUser', [
+            'companies' => $companies,
+        ]);
+    }
+
+    /**
      * Show the report page.
      *
      * @return \Illuminate\Http\Response
@@ -141,6 +169,32 @@ class UserController extends Controller
 
         return redirect('/devices')->with('success', 'Successfully created device.');
     }
+
+    /**
+     * Create the end users page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function doAddUser(Request $request)
+    {
+        $data = $request->all();
+        
+        $validator = Validator::make($data, EndUser::createRules());
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        EndUser::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'department_name' => $data['department_name'],
+            'employment_status' => $data['employment_status'],
+            'company_id' => $data['company_id'],
+        ]);
+
+        return redirect('/users')->with('success', 'Successfully created end-user.');
+    }
     
     /**
      * Create the devices page.
@@ -189,16 +243,13 @@ class UserController extends Controller
         $user = Auth::user();
 
         if ($request->has('first_name'))
-            $$user->first_name = $data['first_name'];
+            $user->first_name = $data['first_name'];
 
         if ($request->has('last_name'))
-            $$user->last_name = $data['last_name'];
-
-        if ($request->has('asset_number'))
-            $$user->asset_number = $data['asset_number'];
+            $user->last_name = $data['last_name'];
 
         $user->save();
         
-        return redirect('/devices')->with('success', 'Successfully Updated device.');
+        return redirect('/profile')->with('success', 'Successfully Updated Profile.');
     }
 }

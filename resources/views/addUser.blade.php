@@ -37,73 +37,58 @@
     @endif
 
     <div id='add-item-form'>
-        <form name="add-device" method='POST' action='{{ action("UserController@doAddDevice") }}'>
+        <form name="add-device" method='POST' action='{{ action("UserController@doAddUser") }}'>
             {{ csrf_field() }}
 
             <table border=0>
                 <tr>
                     <td id='label-col'>
-                        <label>Device Type*</label>
+                        <label>First Name*</label>
                     </td>
                     <td id='input-col'>
-                        <input type='text' name='device_type' required maxlength=30>
+                        <input type='text' name='first_name' />
                     </td>
                 </tr>
                 <tr>
                     <td id='label-col'>
-                        <label>Device Status*</label>
+                        <label>Last Name*</label>
                     </td>
                     <td id='input-col'>
-                        <input type='text' name='device_status' required maxlength=30>
+                        <input type='text' name='last_name' />
                     </td>
                 </tr>
                 <tr>
                     <td id='label-col'>
-                        <label>Serial Number*</label>
+                        <label>Department Name*</label>
                     </td>
                     <td id='input-col'>
-                        <input type='text' name='serial_number' required maxlength=30>
+                        <input type='text' name='department_name' />
                     </td>
                 </tr>
                 <tr>
                     <td id='label-col'>
-                        <label>Asset Number*</label>
+                        <label>Employment Status*</label>
                     </td>
                     <td id='input-col'>
-                        <input type='text' name='asset_number' required maxlength=30>
+                        <input type='text' name='employment_status' />
                     </td>
                 </tr>
                 <tr>
                     <td id='label-col'>
-                        <label>Telephone Number*</label>
+                        <label>Company *</label>
                     </td>
                     <td id='input-col'>
-                        <input type='text' name='telephone_number' required maxlength="10">
-                    </td>
-                </tr>
-                <tr>
-                    <td id='label-col'>
-                        <label>End User *</label>
-                    </td>
-                    <td id='input-col'>
-                        <select name='user_id'>
-                            <option value="">--- Select End User ---</option>
-                            @foreach($endUsers as $endUser)
-                                <option value="{{ $endUser->id }}">{{ $endUser->first_name . " " . $endUser->last_name}}</option>
+                        <select name='company_id'>
+                            <option value="">--- Select Company ---</option>
+                            @foreach($companies as $company)
+                                <option value="{{ $company->id }}">{{ $company->name }}</option>
                             @endforeach
                         </select>
                     </td>
                 </tr>
-                <tr>
-                    <td id='label-col'>
-                        <label>Comments</label> 
-                    </td>
-                    <td id='input-col'>
-                        <textarea name='comments' rows='2'></textarea>
-                    </td>
-                </tr>
+                
             </table>
-            <input type='submit' value='Add' name='add_device'>
+            <input type='submit' value='Add' name='add_user'>
         </form>
     </div>
 @endsection

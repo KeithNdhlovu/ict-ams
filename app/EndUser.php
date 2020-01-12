@@ -17,16 +17,30 @@ class EndUser extends Model
         'company_id',
         'department_name',
         'employment_status',
-        'user_id',
     ];
-
-    public function user() {
-        
-        return $this->belongsTo('EndUser', 'user_id');
-    }
 
     public function company() {
         
         return $this->belongsTo('App\Company');
+    }
+
+    /**
+     * Get a validator for an incoming request.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    public static function createRules($id = 0, $merge = [])
+    {
+        return array_merge(
+            [
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'department_name' => 'required',
+                'employment_status' => 'required',
+                'company_id' => 'required|exists:companies,id',
+            ],
+            $merge);
     }
 }

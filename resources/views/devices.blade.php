@@ -3,7 +3,10 @@
 @section('content')
     <div id="topic">Current Devices and Users</div>
     
-    <a href="{{ url('/devices/add') }}"> <div id="add-new">Add new deice</div></a>
+    @if(\Auth::user()->isAdmin())
+        <a href="{{ url('/devices/add') }}"> <div id="add-new">Add new device</div></a>
+        <a href="{{ url('/users') }}"> <div id="add-new">End Users</div></a>
+    @endif
 
     @if(Session::has('success'))
         <br/>

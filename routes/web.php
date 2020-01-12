@@ -33,6 +33,10 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/devices/add', 'UserController@showAddDevice');
     Route::post('/devices/add', 'UserController@doAddDevice');
     
+    Route::get('/users', 'UserController@showUsers');
+    Route::get('/users/add', 'UserController@showAddUser');
+    Route::post('/users/add', 'UserController@doAddUser');
+    
     Route::get('/devices/{id}', 'UserController@showEditDevice');
     Route::post('/devices/{id}', 'UserController@doEditDevice');
     
