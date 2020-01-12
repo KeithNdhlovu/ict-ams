@@ -20,12 +20,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
-
-        $devices = Device::with('user')->get();
-        return view('devices', [
-            'devices' => $devices,
-        ]);
+        return redirect('/devices');
     }
 
     /**
@@ -36,9 +31,19 @@ class UserController extends Controller
     public function devices(Request $request)
     {
 
-        $devices = Device::with('user')->get();
+        $devices = Device::with(['user', 'user.company'])->get();
+        if ($request->has('company')) {
+            
+            $devices = $devices->filter(function($device) use ($request) {
+                return $device->user->company_id == $request->get('company');
+            });
+        }
+
+        $companies = Company::all();
         return view('devices', [
+            'isSearch' => $request->has('company'),
             'devices' => $devices,
+            'companies' => $companies,
         ]);
     }
 

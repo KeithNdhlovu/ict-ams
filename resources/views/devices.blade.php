@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+
     <div id="topic">Current Devices and Users</div>
     
     @if(\Auth::user()->isAdmin())
@@ -13,6 +14,30 @@
         <center class="alert-success"> {{ Session::get('success') }} </center><br>
         <br/>
     @endif
+
+    <div title="comBox">
+        <!-- @TODO: AJAX Post data to filter -->
+        <form method="POST" action="">
+            <label for="AIDC"> Filter By Company : </label>
+            <select id="cmbMake" name="Make" onchange="filterByCompany()">
+                <option value="">-----</option>
+                @foreach($companies as $company)
+                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                @endforeach
+            </select>
+
+            <!-- <label for="TENANTS"> TENANTS: </label>
+            <select id="cmbMake" name="Make">
+                <option value="0">Select TENANTS</option>
+                <option value="1">AutoFuture Designs</option>
+                <option value="2">Herstellung Giants</option>
+                <option value="3">OTDN Logistics</option>
+                <option value="4">Tooland Skills Hubs</option>
+                <option value="5">UP&Run Solutions</option>
+                <option value="6">QSpeeds Transportation</option>
+            </select> -->
+        </form>
+    </div>
 
     <table border=0>
         <thead>
@@ -50,11 +75,22 @@
             @endforeach
             @if ($devices->isEmpty())
                 <tr style='background-color:white'>
-                    <td colspan="{{ \Auth::user()->isAdmin() ? '8' : '6' }}" style='text-align: center'><h1>No devices added at this moment.</h1></td>
+                    @if ($isSearch)
+                        <td colspan="{{ \Auth::user()->isAdmin() ? '8' : '6' }}" style='text-align: center'><h2>No devices for the selected company.</h2></td>
+                    @else
+                        <td colspan="{{ \Auth::user()->isAdmin() ? '8' : '6' }}" style='text-align: center'><h2>No devices added at this moment.</h2></td>
+                    @endif
                 </tr>
             @endif
         </tbody>
 
     </table>
     <a href="/report"><div id="report">Generate Report</div></a>
+
+    <script>
+        function filterByCompany() {
+            var x = document.getElementById("cmbMake").value;
+            window.location.href = "/devices?company="+x;
+        }
+    </script>
 @endsection
